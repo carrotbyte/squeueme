@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id         String       @id @default(cuid())
+  name       String
+  mall       String
+  address    String
+  lat        Float?
+  lng        Float?
+  createdAt  DateTime     @default(now())
+  events     DropEvent[]
+  staffUsers StaffUser[]
+}
+
+model DropEvent {
+  id            String    @id @default(cuid())
+  storeId       String
+  store         Store     @relation(fields: [storeId], references: [id])
+  productName   String
+  productImg    String?
+  unitsPerDay   Int
+  startsAt      DateTime
+  endsAt        DateTime
+  joinOpensAt   DateTime
+  joinClosesAt  DateTime
+  status        EventStatus @default(UPCOMING)
+  createdAt     DateTime  @default(now())
+  tickets       Ticket[]
+}
+
+model Ticket {
+  id           String       @id @default(cuid())
+  eventId      String
+  event        DropEvent    @relation(fields: [eventId], references: [id])
+  phoneHash    String
+  displayName  String
+  position     Int
+  status       TicketStatus @default(WAITING)
+  qrToken      String       @unique @default(cuid())
+  notifiedAt   DateTime?
+  checkInAt    DateTime?
+  servedAt     DateTime?
+  createdAt    DateTime     @default(now())
+  @@unique([eventId, phoneHash])
+  @@unique([eventId, position])
+}
+
+model StaffUser {
+  id        String   @id @default(cuid())
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id])
+  name      String
+  pin       String
+  role      StaffRole @default(FLOOR)
+  createdAt DateTime @default(now())
+}
+
+enum EventStatus {
+  UPCOMING
+  OPEN
+  PAUSED
+  CLOSED
+}
+
+enum TicketStatus {
+  WAITING
+  NOTIFIED
+  CHECKED_IN
+  SERVING
+  COMPLETED
+  NO_SHOW
+  CANCELLED
+}
+
+enum StaffRole {
+  FLOOR
+  MANAGER
+}

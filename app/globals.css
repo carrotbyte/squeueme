@@ -1,26 +1,52 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-swatch-red: #FF0000;
+  --color-swatch-black: #000000;
+  --color-swatch-white: #FFFFFF;
+  --color-swatch-yellow: #FFD700;
+  --color-swatch-gray: #F5F5F5;
+  --color-swatch-gray-dark: #1A1A1A;
+  --color-swatch-gray-mid: #666666;
+  --color-swatch-gray-light: #E5E5E5;
+
+  --font-sans: var(--font-inter), Arial, sans-serif;
+  --font-display: var(--font-inter), "Arial Black", sans-serif;
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-bounce-once: bounce 1s ease-in-out 1;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .btn-primary {
+    @apply bg-swatch-red text-white font-black uppercase tracking-widest px-8 py-4 text-sm hover:bg-swatch-black transition-colors duration-150 rounded-none cursor-pointer;
+  }
+  .btn-secondary {
+    @apply bg-swatch-black text-white font-black uppercase tracking-widest px-8 py-4 text-sm hover:bg-swatch-red transition-colors duration-150 rounded-none cursor-pointer;
+  }
+  .btn-outline {
+    @apply border-2 border-swatch-black text-swatch-black font-black uppercase tracking-widest px-8 py-4 text-sm hover:bg-swatch-black hover:text-white transition-colors duration-150 rounded-none cursor-pointer;
+  }
+  .card {
+    @apply bg-white border-2 border-swatch-black p-6;
+  }
+  .status-badge {
+    @apply inline-block font-black uppercase tracking-widest text-xs px-3 py-1;
+  }
 }

@@ -140,7 +140,7 @@ export default function HomePage() {
 
       <footer className="border-t-4 border-swatch-black px-5 py-6 text-center">
         <p className="text-[11px] uppercase tracking-widest font-bold text-swatch-gray-mid">
-          © {new Date().getFullYear()} S-queue Me · Not affiliated with Swatch · Built by Kwok Hong so you don&apos;t go home empty-handed
+          © {new Date().getFullYear()} S-queue Me · Not affiliated with Swatch
         </p>
       </footer>
     </main>
